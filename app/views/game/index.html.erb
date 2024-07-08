@@ -1,0 +1,22 @@
+<h1>Geography Game: Rank by Population</h1>
+
+<p>Turns left: <%= @turns_left %></p>
+
+<%= form_with url: check_order_path, method: :post do %>
+  <ul>
+    <% @countries.each do |country| %>
+      <li>
+        <%= country.name %>
+        <input type="hidden" name="countries[]" value="<%= country.id %>">
+      </li>
+    <% end %>
+  </ul>
+  <input type="hidden" name="turns_left" value="<%= @turns_left %>">
+  <%= submit_tag "Submit Order" %>
+<% end %>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% elsif flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>

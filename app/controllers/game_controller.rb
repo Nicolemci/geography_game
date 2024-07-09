@@ -1,12 +1,15 @@
+# app/controllers/game_controller.rb
 class GameController < ApplicationController
   def index
-    @countries = Country.order('RANDOM()').limit(10)
+    @countries = CountryPopulation.order('RANDOM()').limit(10)
     @turns_left = 5
   end
 
   def check_order
     selected_countries = params[:countries]
-    @correct = selected_countries.values.each_cons(2).all? { |a, b| Country.find(a).population <= Country.find(b).population }
+    @correct = selected_countries.values.each_cons(2).all? do |a, b|
+      CountryPopulation.find(a).population <= CountryPopulation.find(b).population
+    end
     @turns_left = params[:turns_left].to_i - 1
 
     if @correct
@@ -14,9 +17,10 @@ class GameController < ApplicationController
       redirect_to root_path
     elsif @turns_left.zero?
       flash[:alert] = "Game over! You have used all your turns."
-      redirect_to root_path
+      @countries = selected_countries.values.map { |id| CountryPopulation.find(id) }
+      render :index
     else
-      @countries = selected_countries.values.map { |id| Country.find(id) }
+      @countries = selected_countries.values.map { |id| CountryPopulation.find(id) }
       render :index
     end
   end

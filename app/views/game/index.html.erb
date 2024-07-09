@@ -1,3 +1,4 @@
+<!-- app/views/game/index.html.erb -->
 <h1>Geography Game: Rank by Population</h1>
 
 <p>Turns left: <%= @turns_left %></p>
@@ -8,7 +9,10 @@
       <% @countries.each_with_index do |country, index| %>
         <li>
           <%= hidden_field_tag "countries[#{index}]", country.id %>
-          <%= country.name %>
+          <%= country.country_name %>
+          <% if @turns_left == 0 %>
+            (<%= number_with_delimiter(country.population) %>)
+          <% end %>
         </li>
       <% end %>
     <% else %>

@@ -1,0 +1,2 @@
+class CountryPopulation < ApplicationRecord
+end

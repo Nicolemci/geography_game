@@ -3,15 +3,19 @@
 <p>Turns left: <%= @turns_left %></p>
 
 <%= form_with url: check_order_path, method: :post do %>
-  <ul>
-    <% @countries.each do |country| %>
-      <li>
-        <%= country.name %>
-        <input type="hidden" name="countries[]" value="<%= country.id %>">
-      </li>
+  <ul id="sortable-list">
+    <% if @countries.present? %>
+      <% @countries.each_with_index do |country, index| %>
+        <li>
+          <%= hidden_field_tag "countries[#{index}]", country.id %>
+          <%= country.name %>
+        </li>
+      <% end %>
+    <% else %>
+      <li>No countries available</li>
     <% end %>
   </ul>
-  <input type="hidden" name="turns_left" value="<%= @turns_left %>">
+  <%= hidden_field_tag :turns_left, @turns_left %>
   <%= submit_tag "Submit Order" %>
 <% end %>
 

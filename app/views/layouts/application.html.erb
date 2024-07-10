@@ -5,11 +5,15 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js' %>
+   <link rel="preload" href="/packs/js/application-4e65c57da2cc1b47067c.js" as="script">
+  <!-- Preload sortable.js -->
+  <link rel="preload" href="/packs/js/sortable-72dd32c32603ad41b010.js" as="script">
 
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js' %>
 </head>
+
 
 
 

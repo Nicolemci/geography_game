@@ -1,22 +1,17 @@
 <!-- app/views/game/index.html.erb -->
-<h1>Geography Game: Rank by Population</h1>
+<h1>Geography</h1>
 
 <p>Turns left: <%= @turns_left %></p>
 
-<%= form_with url: check_order_path, method: :post do %>
+<%= form_with url: check_order_path, method: :post, id: 'sortable-form' do |form| %>
   <ul id="sortable-list">
-    <% if @countries.present? %>
-      <% @countries.each_with_index do |country, index| %>
-        <li>
-          <%= hidden_field_tag "countries[#{index}]", country.id %>
-          <%= country.country_name %>
-          <% if @turns_left == 0 %>
-            (<%= number_with_delimiter(country.population) %>)
-          <% end %>
-        </li>
-      <% end %>
-    <% else %>
-      <li>No countries available</li>
+    <% @countries.each do |country| %>
+      <li data-id="<%= country.id %>">
+        <%= country.country_name %>
+        <% if @turns_left == 0 %>
+          (<%= number_with_delimiter(country.population) %>)
+        <% end %>
+      </li>
     <% end %>
   </ul>
   <%= hidden_field_tag :turns_left, @turns_left %>
@@ -28,3 +23,6 @@
 <% elsif flash[:alert] %>
   <p><%= flash[:alert] %></p>
 <% end %>
+
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js' %>
+<%= javascript_pack_tag 'sortable' %>

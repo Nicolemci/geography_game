@@ -13,3 +13,20 @@
  *= require_tree .
  *= require_self
  */
+/* app/assets/stylesheets/application.scss */
+#sortable-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+#sortable-list li {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: move; /* Enable dragging */
+}
+
+#sortable-list li:hover {
+  background-color: #e9e9e9;
+}

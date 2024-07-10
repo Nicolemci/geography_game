@@ -6,10 +6,15 @@ class GameController < ApplicationController
   end
 
   def check_order
-    selected_countries = params[:countries]
-    @correct = selected_countries.values.each_cons(2).all? do |a, b|
+    selected_country_ids = params[:countries]
+
+    # Ensure selected_country_ids is an array if it's coming as a string
+    selected_country_ids = selected_country_ids.is_a?(String) ? selected_country_ids.split(',') : selected_country_ids
+
+    @correct = selected_country_ids.each_cons(2).all? do |a, b|
       CountryPopulation.find(a).population <= CountryPopulation.find(b).population
     end
+
     @turns_left = params[:turns_left].to_i - 1
 
     if @correct
@@ -17,10 +22,9 @@ class GameController < ApplicationController
       redirect_to root_path
     elsif @turns_left.zero?
       flash[:alert] = "Game over! You have used all your turns."
-      @countries = selected_countries.values.map { |id| CountryPopulation.find(id) }
-      render :index
+      redirect_to root_path
     else
-      @countries = selected_countries.values.map { |id| CountryPopulation.find(id) }
+      @countries = CountryPopulation.find(selected_country_ids)
       render :index
     end
   end

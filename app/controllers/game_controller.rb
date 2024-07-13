@@ -1,4 +1,3 @@
-# app/controllers/game_controller.rb
 class GameController < ApplicationController
   def population
     @countries = CountryPopulation.order('RANDOM()').limit(10)
@@ -7,9 +6,7 @@ class GameController < ApplicationController
 
   def check_population_order
     selected_country_ids = params[:countries]
-
     selected_country_ids = selected_country_ids.is_a?(String) ? selected_country_ids.split(',') : selected_country_ids
-
     @correct = selected_country_ids.each_cons(2).all? do |a, b|
       CountryPopulation.find(a).population <= CountryPopulation.find(b).population
     end
@@ -35,9 +32,7 @@ class GameController < ApplicationController
 
   def check_area_order
     selected_country_ids = params[:countries]
-
     selected_country_ids = selected_country_ids.is_a?(String) ? selected_country_ids.split(',') : selected_country_ids
-
     @correct = selected_country_ids.each_cons(2).all? do |a, b|
       CountryArea.find(a).area <= CountryArea.find(b).area
     end
@@ -53,34 +48,6 @@ class GameController < ApplicationController
     else
       @countries = CountryArea.find(selected_country_ids)
       render :area
-    end
-  end
-
-  def capital
-    @countries = CountryCapital.order('RANDOM()').limit(10)
-    @turns_left = 5
-  end
-
-  def check_capital_order
-    selected_country_ids = params[:countries]
-
-    selected_country_ids = selected_country_ids.is_a?(String) ? selected_country_ids.split(',') : selected_country_ids
-
-    @correct = selected_country_ids.each_cons(2).all? do |a, b|
-      CountryCapital.find(a).capital <= CountryCapital.find(b).capital
-    end
-
-    @turns_left = params[:turns_left].to_i - 1
-
-    if @correct
-      flash[:notice] = "Correct! You have successfully ranked the countries by capital cities."
-      redirect_to games_capital_path
-    elsif @turns_left.zero?
-      flash[:alert] = "Game over! You have used all your turns."
-      redirect_to games_capital_path
-    else
-      @countries = CountryCapital.find(selected_country_ids)
-      render :capital
     end
   end
 end

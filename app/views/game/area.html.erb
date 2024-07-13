@@ -1,0 +1,27 @@
+<h1>Geography Game - Area</h1>
+
+<p>Turns left: <%= @turns_left %></p>
+
+<%= form_with url: check_area_order_path, method: :post, id: 'sortable-form' do |form| %>
+  <ul id="sortable-list">
+    <% @countries.each do |country| %>
+      <li data-id="<%= country.id %>">
+        <%= country.country_name %>
+        <% if @turns_left == 0 %>
+          (<%= number_with_delimiter(country.area) %>)
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <%= hidden_field_tag :turns_left, @turns_left %>
+  <%= submit_tag "Submit Order" %>
+<% end %>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% elsif flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js' %>
+<%= javascript_pack_tag 'sortable' %>

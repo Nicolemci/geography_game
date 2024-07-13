@@ -1,0 +1,2 @@
+class CountryArea < ApplicationRecord
+end

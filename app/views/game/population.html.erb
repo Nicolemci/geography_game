@@ -1,9 +1,8 @@
-<!-- app/views/game/index.html.erb -->
-<h1>Geography Game</h1>
+<h1>Population Game</h1>
 
 <p>Turns left: <%= @turns_left %></p>
 
-<%= form_with url: check_order_path, method: :post, id: 'sortable-form' do |form| %>
+<%= form_with url: check_population_order_path, method: :post, id: 'sortable-form' do |form| %>
   <ul id="sortable-list">
     <% @countries.each do |country| %>
       <li data-id="<%= country.id %>">
